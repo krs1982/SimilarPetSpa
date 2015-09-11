@@ -28,7 +28,7 @@ public class MidiReceiver : MonoBehaviour{
 
         //Debug.Log(data1.ToString() + ", " + data2.ToString());
 
-        if(data1 == 1)
+        if (data1 == 1) //... obsluga pokretla do nabijania combosow
         {
             if(up)
             {
@@ -47,15 +47,15 @@ public class MidiReceiver : MonoBehaviour{
                 }   
             }
         }
-        else
+        else //... obsluga klawiszy odpowiedzialnych za sterowanie maszynami
         {
             switch (data1)
             {
-                case 60: Debug.Log("Maszyna 01"); break;
-                case 62: Debug.Log("Maszyna 02"); break;
-                case 64: Debug.Log("Maszyna 03"); break;
-                case 65: Debug.Log("Maszyna 04"); break;
-                case 67: Debug.Log("Maszyna 05"); break;
+                case 60: GameManager.Instance.UseMachine01(); break;
+                case 62: GameManager.Instance.UseMachine02(); break;
+                case 64: GameManager.Instance.UseMachine03(); break;
+                case 65: GameManager.Instance.UseMachine04(); break;
+                case 67: GameManager.Instance.UseMachine05(); break;
             }
         }
     }
