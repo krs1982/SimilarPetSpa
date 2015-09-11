@@ -15,6 +15,10 @@ public class AnimalBehaviour : MonoBehaviour {
 		Conveyor = GameObject.FindGameObjectWithTag ("Conveyor");
 		localNodes = Conveyor.GetComponent<ConveyorMoving>().nodes;
 		myNode = localNodes [myNodeNumber].transform;
+		this.GetComponent<TweenPosition> ().to = myNode.transform.position;
+		this.GetComponent<TweenPosition> ().from = new Vector3 (-9.7f, -3.71f, 0);
+		this.GetComponent<TweenPosition> ().Play (true);
+		this.GetComponent<TweenPosition> ().Reset ();
 	}
 
 	public void MoveAnimal()
