@@ -7,6 +7,7 @@ public class ConveyorMoving : MonoBehaviour {
 
 	public GameObject[] nodes;
 	public GameObject animalsParent;
+	public float animationTime = 0.8f;
 	
 
 	public void MoveConveyor()
