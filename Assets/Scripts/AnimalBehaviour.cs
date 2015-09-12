@@ -44,7 +44,16 @@ public class AnimalBehaviour : MonoBehaviour {
 	{
 		if (myNodeNumber == 11)
 			Destroy (this.gameObject);
-		else {
+		else
+        {
+            if (myNodeNumber == 10)
+            {
+                if (neccesaryTreatments.Count == 0)
+                    GameManager.Instance.AddPoints(50);
+                else if (neccesaryTreatments.Count == 1)
+                    GameManager.Instance.AddPoints(25);
+            }
+
             myNode.gameObject.GetComponent<NodeController>().AssignAnimalToNode(null);
             this.gameObject.GetComponent<TweenPosition> ().from = myNode.position;
 			myNodeNumber++;
@@ -69,7 +78,15 @@ public class AnimalBehaviour : MonoBehaviour {
 		} else
 			GraySprite ();
 
+<<<<<<< HEAD
 	}
+=======
+    void OnDestroy()
+    {
+        
+    }
+
+>>>>>>> a4e1ae1609ff33775f2b7e24482021c4e68dc368
 
 	void GraySprite()
 	{

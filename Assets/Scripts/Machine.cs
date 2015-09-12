@@ -66,6 +66,7 @@ public class Machine : MonoBehaviour {
         IsWorking = true;
 		machineSprite.GetComponent<TweenPosition>().Reset();
 		machineSprite.GetComponent<TweenPosition>().Play(true);
+        GameManager.Instance.IncreaseHeat(25f);
 		StartCoroutine(MachineFinishedWork(tweenPosition.duration));
     }
 
