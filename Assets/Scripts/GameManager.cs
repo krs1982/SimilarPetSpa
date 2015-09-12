@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
+
+    public GameObject Machine01, Machine02, Machine03, Machine04, Machine05;
+    private Machine machine01component, machine02component, machine03component, machine04component, machine05component;
 
     #region REFERENCES
 
@@ -24,13 +28,20 @@ public class GameManager : MonoBehaviour {
 
     //... zmienne zwiazane z maszynami
     private bool machinesActivated = false;
+    private int heatMeter = 0;
 
-    private enum STATE { animalMove = 1, firstIdle, machineMove, secondIdle };
-    private STATE gameState;
+    //... lista do przechowania kolejki nacisnietych na klawiaturze MIDI klawiszy
+    private List<int> pressedKeys = new List<int>();
 
     void Awake()
     {
-        animalMover = GameObject.Find("Conveyor").GetComponent<ConveyorMoving>();	
+        animalMover = GameObject.Find("Conveyor").GetComponent<ConveyorMoving>();
+
+        machine01component = Machine01.GetComponent<Machine>();
+        machine02component = Machine02.GetComponent<Machine>();
+        machine03component = Machine03.GetComponent<Machine>();
+        machine04component = Machine04.GetComponent<Machine>();
+        machine05component = Machine05.GetComponent<Machine>();
     }
 
 	void Start () 
@@ -45,6 +56,8 @@ public class GameManager : MonoBehaviour {
 	
 	void Update () 
     {
+        ListenForMidiKeyboard();
+        
         timer += Time.deltaTime;
 	
         if(timer >= beatTime)
@@ -61,6 +74,28 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
+
+    public void AddPressedKey(int keyNumber)
+    {
+        pressedKeys.Add(keyNumber);
+    }
+
+    private void ListenForMidiKeyboard()
+    {
+        if(pressedKeys.Count > 0)
+        {
+            Debug.Log(pressedKeys[0]);
+            
+            switch(pressedKeys[0])
+            {
+                case 60: UseMachine01(); pressedKeys.RemoveAt(0); break;
+                case 62: UseMachine02(); pressedKeys.RemoveAt(0); break;
+                case 64: UseMachine03(); pressedKeys.RemoveAt(0); break;
+                case 65: UseMachine04(); pressedKeys.RemoveAt(0); break;
+                case 67: UseMachine05(); pressedKeys.RemoveAt(0); break;
+            }
+        }
+    }
 
     public void IncreaseCombo()
     {
@@ -92,7 +127,9 @@ public class GameManager : MonoBehaviour {
     #region Machine controls
     public void UseMachine01()
     {
-        if(machinesActivated)
+        machine01component.FullMove();
+
+        if (machinesActivated)
         {
 
         }
@@ -104,6 +141,8 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine02()
     {
+        machine02component.FullMove();
+
         if (machinesActivated)
         {
 
@@ -116,6 +155,8 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine03()
     {
+        machine03component.FullMove();
+
         if (machinesActivated)
         {
 
@@ -128,6 +169,8 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine04()
     {
+        machine04component.FullMove();
+
         if (machinesActivated)
         {
 
@@ -140,6 +183,8 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine05()
     {
+        machine05component.FullMove();
+
         if (machinesActivated)
         {
 

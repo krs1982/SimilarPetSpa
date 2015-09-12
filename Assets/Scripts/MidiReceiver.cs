@@ -6,12 +6,27 @@ using Sanford.Threading;
 using System.Threading;
 
 
-public class MidiReceiver : MonoBehaviour{
+public class MidiReceiver : MonoBehaviour {
+
+    public GameObject Machine01;
+    private TweenPosition machine01tween;
 
     private InputDevice midiIn = null;
 
     //... zmienne do systemu nabijania combosow
     private bool up = true;
+
+    //... zmienne do wyeliminowania zduplikowanych sygnalow
+    private bool key01pressed = false,
+                 key02pressed = false,
+                 key03pressed = false,
+                 key04pressed = false,
+                 key05pressed = false;
+
+    void Awake()
+    {
+        machine01tween = Machine01.GetComponent<TweenPosition>();
+    }
 
     void Start ()
     {
@@ -49,13 +64,54 @@ public class MidiReceiver : MonoBehaviour{
         }
         else //... obsluga klawiszy odpowiedzialnych za sterowanie maszynami
         {
-            switch (data1)
+            if (data1 == 60 && key01pressed == false)
             {
-                case 60: GameManager.Instance.UseMachine01(); break;
-                case 62: GameManager.Instance.UseMachine02(); break;
-                case 64: GameManager.Instance.UseMachine03(); break;
-                case 65: GameManager.Instance.UseMachine04(); break;
-                case 67: GameManager.Instance.UseMachine05(); break;
+                key01pressed = true;
+                GameManager.Instance.AddPressedKey(data1);
+            }
+            else if (data1 == 60 && key01pressed == true)
+            {
+                key01pressed = false;
+            }
+
+            if (data1 == 62 && key02pressed == false)
+            {
+                key02pressed = true;
+                GameManager.Instance.AddPressedKey(data1);
+            }
+            else if (data1 == 62 && key02pressed == true)
+            {
+                key02pressed = false;
+            }
+
+            if (data1 == 64 && key03pressed == false)
+            {
+                key03pressed = true;
+                GameManager.Instance.AddPressedKey(data1);
+            }
+            else if (data1 == 64 && key03pressed == true)
+            {
+                key03pressed = false;
+            }
+
+            if (data1 == 65 && key04pressed == false)
+            {
+                key04pressed = true;
+                GameManager.Instance.AddPressedKey(data1);
+            }
+            else if (data1 == 65 && key04pressed == true)
+            {
+                key04pressed = false;
+            }
+
+            if (data1 == 67 && key05pressed == false)
+            {
+                key05pressed = true;
+                GameManager.Instance.AddPressedKey(data1);
+            }
+            else if (data1 == 67 && key05pressed == true)
+            {
+                key05pressed = false;
             }
         }
     }
