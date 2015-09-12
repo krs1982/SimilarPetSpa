@@ -8,6 +8,9 @@ public class ConveyorMoving : MonoBehaviour {
 	public GameObject[] nodes;
 	public GameObject animalsParent;
 	public float animationTime = 0.8f;
+	public GameObject conveyorTop;
+	public GameObject conveyorBot;
+	public GameObject[] conveyorWheels;
 	
 
 	public void MoveConveyor()
@@ -16,6 +19,7 @@ public class ConveyorMoving : MonoBehaviour {
 		{
 			child.gameObject.GetComponent<AnimalBehaviour>().MoveAnimal();
 		}
-
+		conveyorTop.GetComponent<FactoryTapeController> ().PlayAnimation();
+		conveyorBot.GetComponent<FactoryTapeController> ().PlayAnimation ();
 	}
 }
