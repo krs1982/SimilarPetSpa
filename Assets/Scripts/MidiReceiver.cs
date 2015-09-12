@@ -8,9 +8,6 @@ using System.Threading;
 
 public class MidiReceiver : MonoBehaviour {
 
-    public GameObject Machine01;
-    private TweenPosition machine01tween;
-
     private InputDevice midiIn = null;
 
     //... zmienne do systemu nabijania combosow
@@ -22,11 +19,6 @@ public class MidiReceiver : MonoBehaviour {
                  key03pressed = false,
                  key04pressed = false,
                  key05pressed = false;
-
-    void Awake()
-    {
-        machine01tween = Machine01.GetComponent<TweenPosition>();
-    }
 
     void Start ()
     {
