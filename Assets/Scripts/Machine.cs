@@ -40,7 +40,7 @@ public class Machine : MonoBehaviour {
                 TreatAnimal();
             }
         }
-        else
+        if (currentAnimal == null)
         {
             WrongMove();
         }

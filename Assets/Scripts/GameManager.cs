@@ -230,7 +230,8 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine01component.Work();
+            if (machine01component.IsWorking == false)
+                machine01component.Work();
         }
         else
         {
@@ -242,7 +243,8 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine02component.Work();
+            if(machine02component.IsWorking == false)
+                machine02component.Work();
         }
         else
         {
@@ -254,7 +256,8 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine03component.Work();
+            if (machine03component.IsWorking == false)
+                machine03component.Work();
         }
         else
         {
@@ -266,7 +269,8 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine04component.Work();
+            if (machine04component.IsWorking == false)
+                machine04component.Work();
         }
         else
         {
@@ -278,7 +282,8 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine05component.Work();
+            if (machine05component.IsWorking == false)
+                machine05component.Work();
         }
         else
         {
