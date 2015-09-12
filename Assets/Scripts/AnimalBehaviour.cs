@@ -78,15 +78,15 @@ public class AnimalBehaviour : MonoBehaviour {
 		} else
 			GraySprite ();
 
-<<<<<<< HEAD
+
 	}
-=======
+
     void OnDestroy()
     {
         
     }
 
->>>>>>> a4e1ae1609ff33775f2b7e24482021c4e68dc368
+
 
 	void GraySprite()
 	{

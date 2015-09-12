@@ -80,7 +80,8 @@ public class Machine : MonoBehaviour {
             {
                 if(!animalTreated)
                 {
-                    currentAnimal.GetComponent<AnimalBehaviour>().neccesaryTreatments.Remove(treatment);
+					currentAnimal.GetComponent<AnimalBehaviour>().ChangeSprite();
+					//currentAnimal.GetComponent<AnimalBehaviour>().neccesaryTreatments.Remove(treatment);
                     animalTreated = true;
                 }
             }
