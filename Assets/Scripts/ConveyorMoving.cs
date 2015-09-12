@@ -21,5 +21,10 @@ public class ConveyorMoving : MonoBehaviour {
 		}
 		conveyorTop.GetComponent<FactoryTapeController> ().PlayAnimation();
 		conveyorBot.GetComponent<FactoryTapeController> ().PlayAnimation ();
+
+		for (int c = 0; c < conveyorWheels.Length; c++) {
+			conveyorWheels[c].GetComponent<FactoryTapeRoller>().Roll ();
+		}
+
 	}
 }
