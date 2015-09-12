@@ -11,9 +11,11 @@ public class SawEffect : MonoBehaviour {
 	public bool syringe = false;
 	public bool roll = false;
 
+	public GameObject sawFragments;
+
 	public GameObject magnetFragments;
 
-	public GameObject[] teslaFragments;
+	public GameObject teslaFragment;
 
 	public void Effect () {
 		StartCoroutine (startEffect(delay));
@@ -32,17 +34,23 @@ public class SawEffect : MonoBehaviour {
 			this.GetComponent<TweenScale> ().Play (true);
 			this.GetComponent<TweenColor> ().Reset ();
 			this.GetComponent<TweenColor> ().Play (true);
+			sawFragments.GetComponent<TweenScale> ().Reset ();
+			sawFragments.GetComponent<TweenScale> ().Play (true);
+			sawFragments.GetComponent<TweenColor> ().Reset ();
+			sawFragments.GetComponent<TweenColor> ().Play (true);
+
 		}
 
 		if (magnet) 
 		{
-			this.GetComponent<TweenAlpha>().Reset();
-			this.GetComponent<TweenAlpha>().Play (true);
+			this.GetComponent<TweenColor>().Reset();
+			this.GetComponent<TweenColor>().Play (true);
 			//magnetFragments.GetComponent<MagnetFragments>().Reset();
 		}
 
 		if (tesla) {
 
+			teslaFragment.GetComponent<TeslaEffect>().StartAnim();
 
 		}
 		if (syringe) {
