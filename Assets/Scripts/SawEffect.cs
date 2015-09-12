@@ -17,6 +17,10 @@ public class SawEffect : MonoBehaviour {
 
 	public GameObject teslaFragment;
 
+	public GameObject bubbleFragment;
+
+	public GameObject sponge;
+
 	public void Effect () {
 		StartCoroutine (startEffect(delay));
 	}
@@ -59,6 +63,11 @@ public class SawEffect : MonoBehaviour {
 			this.GetComponent<TweenColor> ().Reset ();
 			this.GetComponent<TweenColor> ().Play (true);
 		}
-
+		if (roll) {
+			
+			bubbleFragment.GetComponent<BubbleEffect>().StartAnim();
+			sponge.GetComponent<TweenScale>().Reset ();
+			sponge.GetComponent<TweenScale>().Play (true);
+		}
 	}
 }
