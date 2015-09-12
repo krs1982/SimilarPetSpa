@@ -114,14 +114,17 @@ public class GameManager : MonoBehaviour
         }
         #endregion Main timer
 
+        #region Machines activation & deactivation
         if(barCount == StartBar && beatCount == StartBeat)
         {
             ActivateMachines();
         }
-        else if(barCount == EndBar && beatCount == EndBeat)
+
+        if (barCount == EndBar && beatCount == EndBeat)
         {
             DeactivateMachines();
         }
+        #endregion Machines activation & deactivation
     }
 
     void OnGUI()
@@ -213,11 +216,13 @@ public class GameManager : MonoBehaviour
     private void ActivateMachines()
     {
         machinesActivated = true;
+        Debug.Log("Machines activated");
     }
 
     private void DeactivateMachines()
     {
         machinesActivated = false;
+        Debug.Log("Machines deactivated");
     }
 
     #region Machine controls

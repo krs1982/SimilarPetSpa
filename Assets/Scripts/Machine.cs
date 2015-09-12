@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Machine : MonoBehaviour {
 
+    public GameObject Node;
+
     private bool isWorking = false;
 
     public bool IsWorking 
