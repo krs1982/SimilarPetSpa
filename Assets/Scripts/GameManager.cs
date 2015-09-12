@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
     {
         if(pressedKeys.Count > 0)
         {
-            Debug.Log(pressedKeys[0]);
+            //Debug.Log(pressedKeys[0]);
             
             switch(pressedKeys[0])
             {
@@ -216,13 +216,13 @@ public class GameManager : MonoBehaviour
     private void ActivateMachines()
     {
         machinesActivated = true;
-        Debug.Log("Machines activated");
+        //Debug.Log("Machines activated");
     }
 
     private void DeactivateMachines()
     {
         machinesActivated = false;
-        Debug.Log("Machines deactivated");
+        //Debug.Log("Machines deactivated");
     }
 
     #region Machine controls

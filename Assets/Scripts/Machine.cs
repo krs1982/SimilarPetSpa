@@ -54,6 +54,7 @@ public class Machine : MonoBehaviour {
 
     private void FullMove()
     {
+        //Debug.Log("Full");
         IsWorking = true;
         this.GetComponent<TweenPosition>().Reset();
         this.GetComponent<TweenPosition>().Play(true);
@@ -62,6 +63,7 @@ public class Machine : MonoBehaviour {
 
     private void WrongMove()
     {
+        //Debug.Log("Wrong");
         IsWorking = true;
 		machineSpriteTween.Reset();
 		machineSpriteTween.Play(true);
@@ -84,8 +86,4 @@ public class Machine : MonoBehaviour {
             }
         }
     }
-
-
-
-
 }
