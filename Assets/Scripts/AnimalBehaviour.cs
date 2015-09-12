@@ -23,8 +23,14 @@ public class AnimalBehaviour : MonoBehaviour {
 	int animalStateFlag = 0;
 
 	public float delay = 0;
+
+    public Transform leftIcon, middleIcon, rightIcon;
+    private Icon firstTreatmentIcon, secondTreatmentIcon;
+    public GameObject IconPrefab;
+    private GameObject firstIcon, secondIcon;
 	
-	public void ChangeSprite () {
+	public void ChangeSprite ()
+    {
 		StartCoroutine (changeSpriteDelay(delay));
 	}
 	
@@ -49,6 +55,15 @@ public class AnimalBehaviour : MonoBehaviour {
 		this.GetComponent<TweenPosition> ().from = new Vector3 (-10.83f, -3.37f, 0);
 		this.GetComponent<TweenPosition> ().Play (true);
 		this.GetComponent<TweenPosition> ().Reset ();
+
+        firstIcon = (GameObject)Instantiate(IconPrefab, leftIcon.position, Quaternion.identity);
+        firstIcon.GetComponent<Icon>().AssignTreatment(neccesaryTreatments[0]);
+        firstIcon.transform.parent = leftIcon.transform;
+
+        secondIcon = (GameObject)Instantiate(IconPrefab, rightIcon.position, Quaternion.identity);
+        secondIcon.GetComponent<Icon>().AssignTreatment(neccesaryTreatments[1]);
+        secondIcon.transform.parent = rightIcon.transform;
+
 	}
 
 	public void MoveAnimal()
@@ -59,10 +74,15 @@ public class AnimalBehaviour : MonoBehaviour {
         {
             if (myNodeNumber == 10)
             {
-                if (neccesaryTreatments.Count == 0)
+                if (animalStateFlag == 2)
+                {
                     GameManager.Instance.AddPoints(50);
-                else if (neccesaryTreatments.Count == 1)
+                }
+                else if (animalStateFlag == 1)
+                {
                     GameManager.Instance.AddPoints(25);
+                }
+                else GameManager.Instance.AddPoints(0);
             }
 
             myNode.gameObject.GetComponent<NodeController>().AssignAnimalToNode(null);
@@ -77,35 +97,48 @@ public class AnimalBehaviour : MonoBehaviour {
 	}
 	void ChangeSpriteAction()
 	{
-		if (animalStateFlag != -1) {
-			if (myNodeNumber == firstTreatment) {
+		if (animalStateFlag != -1)
+        {
+			if (myNodeNumber == firstTreatment)
+            {
 				animalSprite.sprite = progresSprite;
 				alreadyTreated = true;
 				animalStateFlag = 1;
-			} else if (myNodeNumber == secondTreatment) {
-				if (alreadyTreated) {
+                //... usuniecie ikony
+                firstIcon.GetComponent<Icon>().DestroySelf(0f);
+                //... przesuniecie ikony na srodek
+                secondIcon.transform.position = middleIcon.position;
+			}
+            else if (myNodeNumber == secondTreatment)
+            {
+				if (alreadyTreated)
+                {
 					animalSprite.sprite = happySprite;
 					animalStateFlag = 2;
-				} else 
+                    //... usuniecie drugiej ikony
+                    secondIcon.GetComponent<Icon>().DestroySelf(0f);
+                }
+                else 
 					GraySprite ();
-			} else
+			}
+            else
 				GraySprite ();
 		}
 
 	}
 
-    void OnDestroy()
-    {
-        
-    }
-
-
-
 	public void GraySprite()
 	{
 		animalSprite.color = color;
 		animalStateFlag = -1;
-	}
+        
+        //... usuniecie ikon
+        if(firstIcon != null)
+            firstIcon.GetComponent<Icon>().DestroySelf(0);
+
+        if (secondIcon != null)
+            secondIcon.GetComponent<Icon>().DestroySelf(0);
+    }
 
 
 }
