@@ -32,10 +32,16 @@ public class GameManager : MonoBehaviour
 
     //... zmienne zwiazane z maszynami
     private bool machinesActivated = false;
-    private int heatMeter = 0;
+    private float heatMeter = 0f;
+    public float IncreaseOverTime;
+    private bool overheat = false;
+    public float DecreaseByCombo;
 
     //... lista do przechowania kolejki nacisnietych na klawiaturze MIDI klawiszy
     private List<int> pressedKeys = new List<int>();
+
+    //... ogolna punktacja gry
+    private int points;
 
     void Awake()
     {
@@ -125,12 +131,29 @@ public class GameManager : MonoBehaviour
             DeactivateMachines();
         }
         #endregion Machines activation & deactivation
+
+        IncreaseHeat(IncreaseOverTime);
+
+        if (heatMeter == 100f) overheat = true;
+
+        if(overheat)
+        {
+            if (heatMeter < 1f) overheat = false;
+        }
+
     }
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 100, 20), barCount.ToString() + " : " + beatCount.ToString());
-        GUI.Label(new Rect(10, 40, 100, 20), timer.ToString());
+        GUI.Label(new Rect(10, 10, 200, 20), barCount.ToString() + " : " + beatCount.ToString());
+        GUI.Label(new Rect(10, 40, 200, 20), timer.ToString());
+        GUI.Label(new Rect(10, 70, 200, 20), "Machines heat: " + heatMeter.ToString());
+        GUI.Label(new Rect(10, 110, 200, 20), "Points: " + points.ToString());
+    }
+
+    public void AddPoints(int number)
+    {
+        points += number;
     }
 
     public void AddPressedKey(int keyNumber)
@@ -192,15 +215,23 @@ public class GameManager : MonoBehaviour
     {
         comboMeter++;
 
-        Debug.Log("Combo counter: " + comboMeter.ToString());
+        DecreaseHeat(DecreaseByCombo);
+
+        //Debug.Log("Combo counter: " + comboMeter.ToString());
     }
 
-    private void DecreaseHeat(int amount)
+    public void IncreaseHeat(float amount)
+    {
+        heatMeter = heatMeter + amount;
+        if (heatMeter > 100f) heatMeter = 100f;
+    }
+
+    private void DecreaseHeat(float amount)
     {
         heatMeter = heatMeter - amount;
-        if (heatMeter < 0) heatMeter = 0;
+        if (heatMeter < 0f) heatMeter = 0f;
 
-        Debug.Log("Machines heat: " + heatMeter.ToString());
+        //Debug.Log("Machines heat: " + heatMeter.ToString());
     }
 
     private void ResetCombo()
@@ -228,67 +259,82 @@ public class GameManager : MonoBehaviour
     #region Machine controls
     public void UseMachine01()
     {
-        if (machinesActivated)
+        if(!overheat)
         {
-            if (machine01component.IsWorking == false)
-                machine01component.Work();
-        }
-        else
-        {
+            if (machinesActivated)
+            {
+                if (machine01component.IsWorking == false)
+                    machine01component.Work();
+            }
+            else
+            {
 
+            }
         }
     }
 
     public void UseMachine02()
     {
-        if (machinesActivated)
+        if (!overheat)
         {
-            if(machine02component.IsWorking == false)
-                machine02component.Work();
-        }
-        else
-        {
+            if (machinesActivated)
+            {
+                if (machine02component.IsWorking == false)
+                    machine02component.Work();
+            }
+            else
+            {
 
-        }
+            }
+        }       
     }
 
     public void UseMachine03()
     {
-        if (machinesActivated)
+        if(!overheat)
         {
-            if (machine03component.IsWorking == false)
-                machine03component.Work();
-        }
-        else
-        {
+            if (machinesActivated)
+            {
+                if (machine03component.IsWorking == false)
+                    machine03component.Work();
+            }
+            else
+            {
 
+            }
         }
     }
 
     public void UseMachine04()
     {
-        if (machinesActivated)
+        if(!overheat)
         {
-            if (machine04component.IsWorking == false)
-                machine04component.Work();
-        }
-        else
-        {
+            if (machinesActivated)
+            {
+                if (machine04component.IsWorking == false)
+                    machine04component.Work();
+            }
+            else
+            {
 
+            }
         }
     }
 
     public void UseMachine05()
     {
-        if (machinesActivated)
+        if(!overheat)
         {
-            if (machine05component.IsWorking == false)
-                machine05component.Work();
-        }
-        else
-        {
+            if (machinesActivated)
+            {
+                if (machine05component.IsWorking == false)
+                    machine05component.Work();
+            }
+            else
+            {
 
-        }
+            }
+        }       
     }
     #endregion Machine controls
 }
