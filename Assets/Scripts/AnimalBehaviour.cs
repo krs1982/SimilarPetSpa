@@ -30,7 +30,7 @@ public class AnimalBehaviour : MonoBehaviour {
 
 	public void MoveAnimal()
 	{
-		if (myNodeNumber == 12)
+		if (myNodeNumber == 11)
 			Destroy (this.gameObject);
 		else {
             myNode.gameObject.GetComponent<NodeController>().AssignAnimalToNode(null);
