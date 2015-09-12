@@ -75,6 +75,12 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, 100, 20), barCount.ToString());
+        GUI.Label(new Rect(10, 40, 100, 20), timer.ToString());
+    }
+
     public void AddPressedKey(int keyNumber)
     {
         pressedKeys.Add(keyNumber);
@@ -127,11 +133,11 @@ public class GameManager : MonoBehaviour {
     #region Machine controls
     public void UseMachine01()
     {
-        machine01component.FullMove();
+        
 
         if (machinesActivated)
         {
-
+            machine01component.FullMove();
         }
         else
         {
