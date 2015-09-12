@@ -32,8 +32,11 @@ public class GameManager : MonoBehaviour
 
     //... zmienne zwiazane z maszynami
     private bool machinesActivated = false;
-    private float heatMeter = 0f;
+    [HideInInspector]
+	public float heatMeter = 0f;
     public float IncreaseOverTime;
+	[HideInInspector]
+	public float AdditionalIncrease = 0;
     private bool overheat = false;
     public float DecreaseByCombo;
 
@@ -222,7 +225,7 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseHeat(float amount)
     {
-        heatMeter = heatMeter + amount;
+		heatMeter = heatMeter + amount + AdditionalIncrease;
         if (heatMeter > 100f) heatMeter = 100f;
     }
 

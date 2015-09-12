@@ -22,6 +22,17 @@ public class AnimalBehaviour : MonoBehaviour {
 	public Color color;
 	int animalStateFlag = 0;
 
+	public float delay = 0;
+	
+	public void ChangeSprite () {
+		StartCoroutine (changeSpriteDelay(delay));
+	}
+	
+	IEnumerator changeSpriteDelay (float time) { 
+		yield return new WaitForSeconds (time);
+		ChangeSpriteAction ();
+	} 
+
     public enum TREATMENTS { saw, magnet, tesla, syringe, roll};
 	public List<TREATMENTS> neccesaryTreatments = new List<TREATMENTS>();
 
@@ -64,20 +75,22 @@ public class AnimalBehaviour : MonoBehaviour {
 			this.gameObject.GetComponent<TweenPosition> ().Reset ();
 		}
 	}
-	public void ChangeSprite()
+	void ChangeSpriteAction()
 	{
-		if (myNodeNumber == firstTreatment) {
-			animalSprite.sprite = progresSprite;
-			alreadyTreated = true;
-		} else if (myNodeNumber == secondTreatment) {
-			if (alreadyTreated) {
-				animalSprite.sprite = happySprite;
+		if (animalStateFlag != -1) {
+			if (myNodeNumber == firstTreatment) {
+				animalSprite.sprite = progresSprite;
+				alreadyTreated = true;
 				animalStateFlag = 1;
-			} else 
+			} else if (myNodeNumber == secondTreatment) {
+				if (alreadyTreated) {
+					animalSprite.sprite = happySprite;
+					animalStateFlag = 2;
+				} else 
+					GraySprite ();
+			} else
 				GraySprite ();
-		} else
-			GraySprite ();
-
+		}
 
 	}
 
@@ -88,7 +101,7 @@ public class AnimalBehaviour : MonoBehaviour {
 
 
 
-	void GraySprite()
+	public void GraySprite()
 	{
 		animalSprite.color = color;
 		animalStateFlag = -1;

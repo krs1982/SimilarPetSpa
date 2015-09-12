@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Machine : MonoBehaviour {
 
+	public GameObject effect;
+
 	public GameObject machineSprite;
 
     public GameObject Node;
@@ -17,6 +19,22 @@ public class Machine : MonoBehaviour {
         get { return isWorking; }
         set { isWorking = value; }
     }
+
+
+	public float increasingTime = 0.6f;
+
+	
+	IEnumerator StartTimer (float time) { 
+		yield return new WaitForSeconds (time);
+		StopTimer ();
+	} 
+
+	
+	void StopTimer ()
+	{
+		GameManager.Instance.AdditionalIncrease = 0f;
+	}
+
 
     private TweenPosition tweenPosition;
 
@@ -57,6 +75,7 @@ public class Machine : MonoBehaviour {
         IsWorking = true;
         this.GetComponent<TweenPosition>().Reset();
         this.GetComponent<TweenPosition>().Play(true);
+		effect.GetComponent<SawEffect> ().Effect ();
         StartCoroutine(MachineFinishedWork(tweenPosition.duration));
     }
 
@@ -66,12 +85,15 @@ public class Machine : MonoBehaviour {
         IsWorking = true;
 		machineSprite.GetComponent<TweenPosition>().Reset();
 		machineSprite.GetComponent<TweenPosition>().Play(true);
-        GameManager.Instance.IncreaseHeat(25f);
+        GameManager.Instance.AdditionalIncrease = 0.2f;
+		StartCoroutine(StartTimer(increasingTime));
 		StartCoroutine(MachineFinishedWork(tweenPosition.duration));
     }
 
     private void TreatAnimal()
     {
+		bool treatmentDelivered = false;
+
         foreach(AnimalBehaviour.TREATMENTS treatment in currentAnimal.GetComponent<AnimalBehaviour>().neccesaryTreatments)
         {
             bool animalTreated = false;
@@ -83,8 +105,11 @@ public class Machine : MonoBehaviour {
 					currentAnimal.GetComponent<AnimalBehaviour>().ChangeSprite();
 					//currentAnimal.GetComponent<AnimalBehaviour>().neccesaryTreatments.Remove(treatment);
                     animalTreated = true;
+					treatmentDelivered = true;
                 }
-            }
+            } 
         }
+		if (!treatmentDelivered)
+			currentAnimal.GetComponent<AnimalBehaviour> ().GraySprite ();
     }
 }
