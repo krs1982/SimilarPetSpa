@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Machine : MonoBehaviour {
 
     public GameObject Node;
+
+    public AnimalBehaviour.TREATMENTS machineTreatment;
 
     private bool isWorking = false;
 
@@ -15,20 +18,29 @@ public class Machine : MonoBehaviour {
 
     private TweenPosition tweenPosition;
 
+    private GameObject currentAnimal;
+
     void Awake()
     {
         tweenPosition = this.gameObject.GetComponent<TweenPosition>();
     }
 
-    public void FullMove()
+    public void Work()
     {
-        if(!IsWorking)
+        currentAnimal = Node.GetComponent<NodeController>().CurrentAnimal;
+
+        if (currentAnimal != null)
         {
-            IsWorking = true;
-            this.GetComponent<TweenPosition>().Reset();
-            this.GetComponent<TweenPosition>().Play(true);
-            StartCoroutine(MachineFinishedWork(tweenPosition.duration));
-        }     
+            if (!IsWorking)
+            {
+                FullMove();
+                TreatAnimal();
+            }
+        }
+        else
+        {
+            WrongMove();
+        }
     }
 
     IEnumerator MachineFinishedWork(float duration)
@@ -36,4 +48,41 @@ public class Machine : MonoBehaviour {
         yield return new WaitForSeconds(duration);
         IsWorking = false;
     }
+
+    private void FullMove()
+    {
+        IsWorking = true;
+        this.GetComponent<TweenPosition>().Reset();
+        this.GetComponent<TweenPosition>().Play(true);
+        StartCoroutine(MachineFinishedWork(tweenPosition.duration));
+    }
+
+    private void WrongMove()
+    {
+        IsWorking = true;
+        this.GetComponent<TweenPosition>().Reset();
+        this.GetComponent<TweenPosition>().Play(true);
+        StartCoroutine(MachineFinishedWork(tweenPosition.duration));
+    }
+
+    private void TreatAnimal()
+    {
+        foreach(AnimalBehaviour.TREATMENTS treatment in currentAnimal.GetComponent<AnimalBehaviour>().neccesaryTreatments)
+        {
+            bool animalTreated = false;
+
+            if(treatment == machineTreatment)
+            {
+                if(!animalTreated)
+                {
+                    currentAnimal.GetComponent<AnimalBehaviour>().neccesaryTreatments.Remove(treatment);
+                    animalTreated = true;
+                }
+            }
+        }
+    }
+
+
+
+
 }

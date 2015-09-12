@@ -230,7 +230,7 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine01component.FullMove();
+            machine01component.Work();
         }
         else
         {
@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine02component.FullMove();
+            machine02component.Work();
         }
         else
         {
@@ -254,7 +254,7 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine03component.FullMove();
+            machine03component.Work();
         }
         else
         {
@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine04component.FullMove();
+            machine04component.Work();
         }
         else
         {
@@ -278,7 +278,7 @@ public class GameManager : MonoBehaviour
     {
         if (machinesActivated)
         {
-            machine05component.FullMove();
+            machine05component.Work();
         }
         else
         {
