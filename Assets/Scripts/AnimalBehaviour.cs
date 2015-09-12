@@ -9,19 +9,24 @@ public class AnimalBehaviour : MonoBehaviour {
 	public Transform myNode;
 	[HideInInspector]
 	public int myNodeNumber = 0;
+	[HideInInspector]
 	public GameObject Conveyor;
 	GameObject[] localNodes;
 	public Sprite startingSprite;
 	public Sprite progresSprite;
 	public Sprite happySprite;
 	SpriteRenderer animalSprite;
+	public int firstTreatment;
+	public int secondTreatment;
+	bool alreadyTreated = false;
+	public Color color;
+	int animalStateFlag = 0;
 
     public enum TREATMENTS { saw, magnet, tesla, syringe, roll};
-    public List<TREATMENTS> neccesaryTreatments;
-	TREATMENTS nextTreatment;
+	public List<TREATMENTS> neccesaryTreatments = new List<TREATMENTS>();
+
 	void Start()
 	{
-		nextTreatment = neccesaryTreatments [0];
 		animalSprite = this.GetComponent<SpriteRenderer> ();
 		animalSprite.sprite = startingSprite;
 		Conveyor = GameObject.FindGameObjectWithTag ("Conveyor");
@@ -52,14 +57,25 @@ public class AnimalBehaviour : MonoBehaviour {
 	}
 	public void ChangeSprite()
 	{
-		if (neccesaryTreatments [0] == nextTreatment) {
-			if (neccesaryTreatments.Count == 2)
-				animalSprite.sprite = progresSprite;
-			else if (neccesaryTreatments.Count == 1)
+		if (myNodeNumber == firstTreatment) {
+			animalSprite.sprite = progresSprite;
+			alreadyTreated = true;
+		} else if (myNodeNumber == secondTreatment) {
+			if (alreadyTreated) {
 				animalSprite.sprite = happySprite;
-		}
-
+				animalStateFlag = 1;
+			} else 
+				GraySprite ();
+		} else
+			GraySprite ();
 
 	}
+
+	void GraySprite()
+	{
+		animalSprite.color = color;
+		animalStateFlag = -1;
+	}
+
 
 }
