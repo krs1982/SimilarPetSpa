@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class ConveyorMoving : MonoBehaviour {
 
+	public GameObject SoundManager;
 	public GameObject[] nodes;
 	public GameObject animalsParent;
 	public float animationTime = 0.8f;
@@ -13,7 +14,7 @@ public class ConveyorMoving : MonoBehaviour {
 	public GameObject[] conveyorWheels;
 	int spawnerCounter = 0;
 	int spawnerHelper = 0;
-	
+	bool gameMusicPlaying = false;
 
 	public void MoveConveyor()
 	{
@@ -43,5 +44,9 @@ public class ConveyorMoving : MonoBehaviour {
 
 		spawnerHelper--;
 
+		if (!gameMusicPlaying) {
+			SoundManager.GetComponent<SoundManager> ().StartGameMusic ();
+			gameMusicPlaying = true;
+		}
 	}
 }
