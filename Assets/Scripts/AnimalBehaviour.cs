@@ -77,12 +77,19 @@ public class AnimalBehaviour : MonoBehaviour {
                 if (animalStateFlag == 2)
                 {
                     GameManager.Instance.AddPoints(50);
+                    GameManager.Instance.AddSuccessfulTry();
                 }
                 else if (animalStateFlag == 1)
                 {
                     GameManager.Instance.AddPoints(25);
+                    GameManager.Instance.ResetSuccessfulTries();
                 }
-                else GameManager.Instance.AddPoints(0);
+                else
+                {
+                    GameManager.Instance.AddPoints(0);
+                    GameManager.Instance.ResetSuccessfulTries();
+                }
+
             }
 
             myNode.gameObject.GetComponent<NodeController>().AssignAnimalToNode(null);

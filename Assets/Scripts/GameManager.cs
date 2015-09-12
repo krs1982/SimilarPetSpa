@@ -46,6 +46,14 @@ public class GameManager : MonoBehaviour
     //... ogolna punktacja gry
     private int points;
 
+    //... odliczanie
+    public float CountdownTimer = 60f;
+    private int minutes, seconds;
+    public float BonusTime = 10f;
+
+    //... zmienna do zmierzenia ilosci udanych pod rzad prob
+    private int successfulTries;
+
     void Awake()
     {
         animalMover = GameObject.Find("Conveyor").GetComponent<ConveyorMoving>();
@@ -144,14 +152,42 @@ public class GameManager : MonoBehaviour
             if (heatMeter < 1f) overheat = false;
         }
 
+        #region Countdown timer
+        CountdownTimer -= Time.deltaTime;
+
+        float tempMinutes = CountdownTimer / 60f;
+        minutes = (int)Math.Floor(tempMinutes);
+
+        seconds = (int)(CountdownTimer - ((float)minutes * 60f));
+        #endregion Countdown timer
+
+        #region Successful tries check
+        if(successfulTries == 3)
+        {
+            successfulTries = 0;
+            CountdownTimer += BonusTime;
+        }
+        #endregion Successful tries check
     }
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 200, 20), barCount.ToString() + " : " + beatCount.ToString());
-        GUI.Label(new Rect(10, 40, 200, 20), timer.ToString());
-        GUI.Label(new Rect(10, 70, 200, 20), "Machines heat: " + heatMeter.ToString());
-        GUI.Label(new Rect(10, 110, 200, 20), "Points: " + points.ToString());
+        //GUI.Label(new Rect(10, 10, 200, 20), barCount.ToString() + " : " + beatCount.ToString());
+        //GUI.Label(new Rect(10, 40, 200, 20), timer.ToString());
+        //GUI.Label(new Rect(10, 70, 200, 20), "Machines heat: " + heatMeter.ToString());
+        //GUI.Label(new Rect(10, 110, 200, 20), "Points: " + points.ToString());
+        GUI.Label(new Rect(10, 10, 200, 20), "Countdown: " + minutes.ToString() + ":" + seconds.ToString());
+        //GUI.Label(new Rect(10, 40, 200, 20), timer.ToString());
+    }
+
+    public void AddSuccessfulTry()
+    {
+        successfulTries++;
+    }
+
+    public void ResetSuccessfulTries()
+    {
+        successfulTries = 0;
     }
 
     public void AddPoints(int number)
