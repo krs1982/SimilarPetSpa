@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class GameManager : MonoBehaviour {
-
+public class GameManager : MonoBehaviour
+{
     public static GameManager Instance;
 
     public GameObject Machine01, Machine02, Machine03, Machine04, Machine05;
@@ -23,8 +24,11 @@ public class GameManager : MonoBehaviour {
 
     //... zmienne zwiazane z przeliczaniem tempa muzyki na tempo gry
     public float BeatsPerMinute = 90f;
-    private float beatTime;
-    private int barCount = 0;
+    public int Beats = 4;
+    private float beatTime, subBeatTime;
+    private int barCount = 1, beatCount = 1;
+    //... zmienne sluzace do odpalania i wylacania maszyn
+    public int StartBar, StartBeat, EndBar, EndBeat;
 
     //... zmienne zwiazane z maszynami
     private bool machinesActivated = false;
@@ -52,15 +56,50 @@ public class GameManager : MonoBehaviour {
         }
 
         beatTime = 60f / BeatsPerMinute;
+        subBeatTime = beatTime / Beats;
 	}
 	
 	void Update () 
     {
+        ListenForStandardKeyboard();
+
         ListenForMidiKeyboard();
         
         timer += Time.deltaTime;
-	
-        if(timer >= beatTime)
+
+        #region Beats counter
+        if(beatCount == 1)
+        {
+            if(timer >= subBeatTime)
+            {
+                beatCount = 2;
+            }
+        }
+        else if (beatCount == 2)
+        {
+            if (timer >= subBeatTime * 2)
+            {
+                beatCount = 3;
+            }
+        }
+        else if (beatCount == 3)
+        {
+            if (timer >= subBeatTime * 3)
+            {
+                beatCount = 4;
+            }
+        }
+        else if (beatCount == 4)
+        {
+            if (timer >= subBeatTime * 4)
+            {
+                beatCount = 1;
+            }
+        }
+        #endregion Beats counter
+
+        #region Main timer
+        if (timer >= beatTime)
         {
             timer = 0;
             barCount++;
@@ -73,11 +112,21 @@ public class GameManager : MonoBehaviour {
                 case 4: DeactivateMachines(); break;
             }
         }
-	}
+        #endregion Main timer
+
+        if(barCount == StartBar && beatCount == StartBeat)
+        {
+            ActivateMachines();
+        }
+        else if(barCount == EndBar && beatCount == EndBeat)
+        {
+            DeactivateMachines();
+        }
+    }
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 100, 20), barCount.ToString());
+        GUI.Label(new Rect(10, 10, 100, 20), barCount.ToString() + " : " + beatCount.ToString());
         GUI.Label(new Rect(10, 40, 100, 20), timer.ToString());
     }
 
@@ -103,10 +152,52 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    private void ListenForStandardKeyboard()
+    {
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            pressedKeys.Add(60);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            pressedKeys.Add(62);
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            pressedKeys.Add(64);
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            pressedKeys.Add(65);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            pressedKeys.Add(67);
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            DecreaseHeat(2);
+        }
+    }
+
     public void IncreaseCombo()
     {
         comboMeter++;
-        Debug.Log(comboMeter.ToString());
+
+        Debug.Log("Combo counter: " + comboMeter.ToString());
+    }
+
+    private void DecreaseHeat(int amount)
+    {
+        heatMeter = heatMeter - amount;
+        if (heatMeter < 0) heatMeter = 0;
+
+        Debug.Log("Machines heat: " + heatMeter.ToString());
     }
 
     private void ResetCombo()
@@ -129,12 +220,9 @@ public class GameManager : MonoBehaviour {
         machinesActivated = false;
     }
 
-
     #region Machine controls
     public void UseMachine01()
     {
-        
-
         if (machinesActivated)
         {
             machine01component.FullMove();
@@ -147,11 +235,9 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine02()
     {
-        machine02component.FullMove();
-
         if (machinesActivated)
         {
-
+            machine02component.FullMove();
         }
         else
         {
@@ -161,11 +247,9 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine03()
     {
-        machine03component.FullMove();
-
         if (machinesActivated)
         {
-
+            machine03component.FullMove();
         }
         else
         {
@@ -175,11 +259,9 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine04()
     {
-        machine04component.FullMove();
-
         if (machinesActivated)
         {
-
+            machine04component.FullMove();
         }
         else
         {
@@ -189,11 +271,9 @@ public class GameManager : MonoBehaviour {
 
     public void UseMachine05()
     {
-        machine05component.FullMove();
-
         if (machinesActivated)
         {
-
+            machine05component.FullMove();
         }
         else
         {
