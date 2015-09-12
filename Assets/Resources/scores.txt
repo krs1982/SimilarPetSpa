@@ -1,0 +1,4 @@
+Tytko,650
+Karlos,400
+Vincent,500
+Tytko,1000
