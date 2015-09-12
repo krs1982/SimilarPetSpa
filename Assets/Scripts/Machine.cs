@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Machine : MonoBehaviour {
 
-	TweenPosition machineSpriteTween;
+	public GameObject machineSprite;
 
     public GameObject Node;
 
@@ -25,7 +25,6 @@ public class Machine : MonoBehaviour {
     void Awake()
     {
         tweenPosition = this.gameObject.GetComponent<TweenPosition>();
-		machineSpriteTween = this.transform.GetComponentInChildren<TweenPosition> ();
     }
 
     public void Work()
@@ -63,9 +62,9 @@ public class Machine : MonoBehaviour {
     private void WrongMove()
     {
         IsWorking = true;
-		machineSpriteTween.Reset();
-		machineSpriteTween.Play(true);
-        StartCoroutine(MachineFinishedWork(tweenPosition.duration));
+		machineSprite.GetComponent<TweenPosition>().Reset();
+		machineSprite.GetComponent<TweenPosition>().Play(true);
+		StartCoroutine(MachineFinishedWork(tweenPosition.duration));
     }
 
     private void TreatAnimal()
