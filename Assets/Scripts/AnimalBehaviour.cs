@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 
 public class AnimalBehaviour : MonoBehaviour {
 
@@ -9,6 +11,9 @@ public class AnimalBehaviour : MonoBehaviour {
 	public int myNodeNumber = 0;
 	public GameObject Conveyor;
 	GameObject[] localNodes;
+
+    public enum TREATMENTS { saw, magnet, tesla, syringe, roll};
+    public List<TREATMENTS> neccesaryTreatments;
 
 	void Start()
 	{
