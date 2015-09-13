@@ -44,11 +44,11 @@ public class GameManager : MonoBehaviour
     private List<int> pressedKeys = new List<int>();
 
     //... ogolna punktacja gry
-    private int points;
+    public int points;
 
     //... odliczanie
     public float CountdownTimer = 60f;
-    private int minutes, seconds;
+    public int minutes, seconds;
     public float BonusTime = 10f;
 
     //... zmienna do zmierzenia ilosci udanych pod rzad prob
@@ -176,7 +176,7 @@ public class GameManager : MonoBehaviour
         //GUI.Label(new Rect(10, 40, 200, 20), timer.ToString());
         //GUI.Label(new Rect(10, 70, 200, 20), "Machines heat: " + heatMeter.ToString());
         //GUI.Label(new Rect(10, 110, 200, 20), "Points: " + points.ToString());
-        GUI.Label(new Rect(10, 10, 200, 20), "Countdown: " + minutes.ToString() + ":" + seconds.ToString());
+        //GUI.Label(new Rect(10, 10, 200, 20), "Countdown: " + minutes.ToString() + ":" + seconds.ToString());
         //GUI.Label(new Rect(10, 40, 200, 20), timer.ToString());
     }
 
