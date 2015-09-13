@@ -78,9 +78,21 @@ public class GameManager : MonoBehaviour
         beatTime = 60f / BeatsPerMinute;
         subBeatTime = beatTime / Beats;
 	}
+
+    IEnumerator GoToEnterName (float time)
+    {
+        yield return new WaitForSeconds(time);
+        Application.LoadLevel("EnterNameScene");
+    }
+
 	
 	void Update () 
     {
+        if(endGame)
+        {
+            StartCoroutine(GoToEnterName(5f));
+        }
+
         if(!endGame)
         {
             ListenForStandardKeyboard();
