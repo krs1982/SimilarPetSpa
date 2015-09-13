@@ -12,12 +12,16 @@ public class ConveyorMoving : MonoBehaviour {
 	public GameObject conveyorTop;
 	public GameObject conveyorBot;
 	public GameObject[] conveyorWheels;
+	public GameObject tempometer;
 	int spawnerCounter = 0;
 	int spawnerHelper = 0;
 	bool gameMusicPlaying = false;
 
 	public void MoveConveyor()
 	{
+		
+		tempometer.GetComponent<TweenPosition> ().Reset ();
+		tempometer.GetComponent<TweenPosition> ().Play (true);
 		foreach (Transform child in animalsParent.transform)
 		{
 			child.gameObject.GetComponent<AnimalBehaviour>().MoveAnimal();

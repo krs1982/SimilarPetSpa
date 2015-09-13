@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public class Machine : MonoBehaviour {
 
+	public AudioSource animSound;
+
+	public AudioSource jammedSound;
+
+	public float jammedDelay = 0;
+
+	public float soundDelay = 0;
+
 	public GameObject effect;
 
 	public GameObject machineSprite;
@@ -69,13 +77,26 @@ public class Machine : MonoBehaviour {
         IsWorking = false;
     }
 
-    private void FullMove()
+	IEnumerator PlayGoodSound(float duration)
+	{
+		yield return new WaitForSeconds(duration);
+		animSound.Play ();
+	}
+
+	IEnumerator PlayJammedSound(float duration)
+	{
+		yield return new WaitForSeconds(duration);
+		jammedSound.Play ();
+	}
+	
+	private void FullMove()
     {
         //Debug.Log("Full");
         IsWorking = true;
         this.GetComponent<TweenPosition>().Reset();
         this.GetComponent<TweenPosition>().Play(true);
 		effect.GetComponent<SawEffect> ().Effect ();
+		StartCoroutine(PlayGoodSound(soundDelay));
         StartCoroutine(MachineFinishedWork(tweenPosition.duration));
     }
 
@@ -86,6 +107,7 @@ public class Machine : MonoBehaviour {
 		machineSprite.GetComponent<TweenPosition>().Reset();
 		machineSprite.GetComponent<TweenPosition>().Play(true);
         GameManager.Instance.AdditionalIncrease = 0.2f;
+		StartCoroutine(PlayJammedSound(jammedDelay));
 		StartCoroutine(StartTimer(increasingTime));
 		StartCoroutine(MachineFinishedWork(tweenPosition.duration));
     }
