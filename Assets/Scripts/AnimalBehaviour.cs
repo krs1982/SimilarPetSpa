@@ -28,6 +28,8 @@ public class AnimalBehaviour : MonoBehaviour {
     private Icon firstTreatmentIcon, secondTreatmentIcon;
     public GameObject IconPrefab;
     private GameObject firstIcon, secondIcon;
+
+    private Lamp lamp;
 	
 	public void ChangeSprite ()
     {
@@ -64,20 +66,23 @@ public class AnimalBehaviour : MonoBehaviour {
         secondIcon.GetComponent<Icon>().AssignTreatment(neccesaryTreatments[1]);
         secondIcon.transform.parent = rightIcon.transform;
 
+        lamp = GameObject.Find("Lamp").GetComponent<Lamp>();
 	}
 
 	public void MoveAnimal()
 	{
-		if (myNodeNumber == 11)
+		if (myNodeNumber == 10)
 			Destroy (this.gameObject);
 		else
         {
-            if (myNodeNumber == 10)
+            if (myNodeNumber == 9)
             {
                 if (animalStateFlag == 2)
                 {
                     GameManager.Instance.AddPoints(50);
                     GameManager.Instance.AddSuccessfulTry();
+                    lamp.TurnOn();
+                    
                 }
                 else if (animalStateFlag == 1)
                 {
