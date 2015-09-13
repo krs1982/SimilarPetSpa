@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     //... zmienna do zmierzenia ilosci udanych pod rzad prob
     private int successfulTries;
 
+    //... zmienna do zakonczenia gry
+    private bool endGame = false;
+
     void Awake()
     {
         animalMover = GameObject.Find("Conveyor").GetComponent<ConveyorMoving>();
@@ -78,14 +81,32 @@ public class GameManager : MonoBehaviour
 	
 	void Update () 
     {
-        ListenForStandardKeyboard();
+        if(!endGame)
+        {
+            ListenForStandardKeyboard();
 
-        ListenForMidiKeyboard();
-        
-        timer += Time.deltaTime;
+            ListenForMidiKeyboard();
+
+            
+
+            #region Countdown timer
+            CountdownTimer -= Time.deltaTime;
+
+            float tempMinutes = CountdownTimer / 60f;
+            minutes = (int)Math.Floor(tempMinutes);
+
+            seconds = (int)(CountdownTimer - ((float)minutes * 60f));
+
+            if (CountdownTimer < 1f)
+            {
+                CountdownTimer = 0;
+                endGame = true;
+            }
+            #endregion Countdown timer
+        }
 
         #region Beats counter
-        if(beatCount == 1)
+        if (beatCount == 1)
         {
             if(timer >= subBeatTime)
             {
@@ -116,6 +137,8 @@ public class GameManager : MonoBehaviour
         #endregion Beats counter
 
         #region Main timer
+        timer += Time.deltaTime;
+
         if (timer >= beatTime)
         {
             timer = 0;
@@ -151,15 +174,6 @@ public class GameManager : MonoBehaviour
         {
             if (heatMeter < 1f) overheat = false;
         }
-
-        #region Countdown timer
-        CountdownTimer -= Time.deltaTime;
-
-        float tempMinutes = CountdownTimer / 60f;
-        minutes = (int)Math.Floor(tempMinutes);
-
-        seconds = (int)(CountdownTimer - ((float)minutes * 60f));
-        #endregion Countdown timer
 
         #region Successful tries check
         if(successfulTries == 3)
