@@ -39,7 +39,7 @@ public class ConveyorMoving : MonoBehaviour {
 			spawnerCounter++;
 
 			if (spawnerCounter == 1)
-				spawnerHelper = 8;
+				spawnerHelper = 5;
 			else if (spawnerCounter < 3)
 				spawnerHelper = 3;
 			else 

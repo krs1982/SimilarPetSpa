@@ -8,6 +8,6 @@ public class CountdownTimer : MonoBehaviour
 
 	void Update ()
     {
-		bar.GetComponent<Image> ().fillAmount = GameManager.Instance.CountdownTimer / 300;
+		bar.GetComponent<Image> ().fillAmount = GameManager.Instance.CountdownTimer / 120;
 	}
 }
